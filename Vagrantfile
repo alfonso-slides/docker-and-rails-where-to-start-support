@@ -15,6 +15,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: <<-SHELL
     apt-get update
     apt-get upgrade -y
+
     echo "Remove previous jail"
     umount chroot_jail/proc   
     rm -rf chroot_jail
@@ -46,7 +47,18 @@ Vagrant.configure("2") do |config|
     cp -p /bin/ps chroot_jail/bin/
     cp -p /bin/bash chroot_jail/bin/
 
-   echo "Mount proc in the chroot_jail"
-   mount proc -t proc chroot_jail/proc 
+    echo "Mount proc in the chroot_jail"
+    mount proc -t proc chroot_jail/proc 
+    
+    echo "Install docker"
+    apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+    apt-get update
+    apt-get install -y docker-ce docker-ce-cli containerd.io
+    adduser vagrant docker
+
+    echo "Download the ruby docker image"
+    docker image pull ruby:2.6
   SHELL
 end
