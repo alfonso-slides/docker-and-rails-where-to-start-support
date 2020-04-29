@@ -17,6 +17,9 @@ Vagrant.configure("2") do |config|
                           type: "rsync",
     			  rsync__exclude: ".git/"
 
+  # Map port 3000 to the virtual machine so we can see the rails application working.
+  config.vm.network "forwarded_port", guest: 3000, host: 3000
+
   config.vm.provision "shell", inline: <<-SHELL
     apt-get update
     apt-get upgrade -y
