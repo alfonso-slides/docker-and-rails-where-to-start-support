@@ -12,6 +12,11 @@ Vagrant.configure("2") do |config|
     v.clone_directory="/Volumes/FastExtDisk/vmware/"
   end
 
+  config.vm.synced_folder ".", 
+                          "/vagrant", 
+                          type: "rsync",
+    			  rsync__exclude: ".git/"
+
   config.vm.provision "shell", inline: <<-SHELL
     apt-get update
     apt-get upgrade -y
