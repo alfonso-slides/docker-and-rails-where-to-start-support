@@ -68,6 +68,7 @@ Vagrant.configure("2") do |config|
 
     echo "Download the ruby docker image"
     docker image pull ruby:2.6
+    docker image pull postgres:12
 
     echo "Build rails:6 image"
     ls /vagrant
