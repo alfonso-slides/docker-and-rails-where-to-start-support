@@ -68,5 +68,13 @@ Vagrant.configure("2") do |config|
 
     echo "Download the ruby docker image"
     docker image pull ruby:2.6
+
+    echo "Build rails:6 image"
+    ls /vagrant
+    cp -r /vagrant/rails_image .
+    docker build -f rails_image/Dockerfile_for_rails -t rails:6 rails_image
+
+   echo "Set permissions"
+   chown -R vagrant *
   SHELL
 end
